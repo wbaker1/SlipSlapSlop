@@ -1,0 +1,130 @@
+// Wesley Baker's Code for SlipSlapSlop Project 5
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool isSlip(string a) {
+    int i = 0;
+    if (a[i] == 'G') {
+        return true;
+    }
+    if (a[i] == 'D' || a[i] == 'E') {
+        i++;
+    }
+    else {
+        return false;
+    }
+    if (a[i] == 'F') {
+        i++;
+    }
+    if (a[i] == 'D' || a[i] == 'E' || a[i] == 'F' || a[i] == 'G') {
+        if (a[i] == 'D' || a[i] == 'E') {
+            if (a[i + 1] == 'F') {
+            }
+            else {
+                return false;
+            }
+        }
+        if (a[a.length() - 1] != 'G') {
+            return false;
+        }
+        return isSlip(a.substr(i, a.length()));
+    }
+    else {
+        return false;
+    }
+}
+bool isSlap(string a) {
+    int i = 0;
+    if (a[i] == 'A') {
+        i++;
+    }
+    else {
+        return false;
+    }
+    if (a.substr(i, a.length()).length() <= 2) {
+        if (a[i] == 'H') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    if (a[i] == 'B') {
+        return i++, isSlap(a.substr(i, a.length()));
+    }
+    if (a[i] != 'B') {
+        if (a[a.length() - 1] != 'C') {
+            return false;
+        }
+        a.resize(a.size() - 1);
+        if (isSlip(a.substr(i, a.length()))) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+bool isSlop(string a) {
+    int i = 0;
+    if (a.length() > 5) {
+        if (a[i] != 'C') {
+            return i++, isSlop(a);
+        }
+        if (isSlap(a.substr(0, i))) {
+            i++;
+            if (isSlip(a.substr(i, a.length() - i))) {
+                return true;
+            }
+        }
+    }
+    if (isSlap(a)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+void testSlop(string s1) {
+    if (isSlop(s1)) {
+        cout << s1 << " is a Slop" << endl;
+    }
+    else {
+        cout << s1 << " is not a Slop" << endl;
+    }
+}
+void testSlap(string s1) {
+    if (isSlap(s1)) {
+        cout << s1 << " is a Slap" << endl;
+    }
+    else {
+        cout << s1 << " is not a Slap" << endl;
+    }
+}
+void testSlip(string s1) {
+    if (isSlip(s1)) {
+        cout << s1 << " is a Slip" << endl;
+    }
+    else {
+        cout << s1 << " is not a Slip" << endl;
+    }
+}
+int main() {
+    string s1 = "DFG";
+    string s2 = "DFEFF";
+    string s3 = "ADFGC";
+    string s4 = "ABAH";
+    string s5 = "ABC";
+    string s6 = "AHDFG";
+    string s7 = "DFGAH";
+    string s8 = "ADFGCDFFFFFG";
+    testSlip(s1);
+    testSlip(s2);
+    testSlap(s3);
+    testSlap(s4);
+    testSlap(s5);
+    testSlop(s6);
+    testSlop(s7);
+    testSlop(s8);
+}
